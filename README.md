@@ -46,18 +46,55 @@ TLM2 is also able to modify its own source code, demonstrated with the following
 After pushing 1 to the stack, the `W` instruction pops the topmost value off the stack and writes it in its stead into the source code. The body of the main function now looks like this `11L` and after getting redirected by the `L` (left) instruction, *two* 1s get pushed to the stack and the program exits the main function on the lefthand side.
 
 ### Control flow
-Control flow can be changed direction via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than `0` rotates the flow clockwise, less than `0` rotates counter-clockwise and a value of `0` leaves flow unaffected.
+Control flow always starts in the top left corner of the `main` function, moving to the right.
 
-More things here??
+Control flow can be changed directly via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than `0` rotates the flow clockwise, less than `0` rotates counter-clockwise and a value of `0` leaves flow unaffected.
+
+The following program goes in a loop forever
+```
+{main
+R..D
+....
+U..L
+}
+```
+The following program uses a counter to go in a loop 10 times, using the value on top of the stack as a counter. `1NA` pushes 1 to the stack, negates it, then adds the top two values on the stack - effectively a decrement operation. This will happen as long as the `O` instruction keeps redirecting control-flow downwards (and thereby back into the loop "body"). As soon as the value on top of the stack hits 0, control-flow at the `O` instruction will be unaffected and leave the main function to the right.
+```
+{main
+55A.....R....1NA..O...
+......................
+........U.........L...
+}
+```
+
+more things here???
 
 ### The stack
 yay
 
+wow
+
 ### Functions
-yay
+Control flow can "leave" the main function by going to a different functions. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right.
+
+The following program enters the function `f` twice - each time pushing the number 1 to the stack.
+```
+{main
+ff
+}
+{f
+1
+}
+```
+Control flow is not preserved when exiting a function, so even if the body of the function of `f` was `1D`, the program would functionally be identical.
+
+
+
 
 ### Registers
 yay
+
+wow
 
 ### Nice to have
 * mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
