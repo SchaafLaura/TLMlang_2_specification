@@ -1,9 +1,13 @@
 # 🚧 This page is still very much under construction 🚧
-
-
-## Specification
 This is the (informal) specification for the programming language TLM2 (or TLMlang 2)
-### General
+
+Contents
+* [General](#general)
+* [Control flow](#control-flow)
+* [The stack](#the-stack)
+
+
+## General
 TLM2 is based on TLMlang (Trans lives matter language) from May'24.
 The '24 TLMlang is a stack-based, two-dimensional programming language focused on meta programming. Inspirations include Brainfuck, Befunge and cellular automata.
 
@@ -45,7 +49,7 @@ TLM2 is also able to modify its own source code, demonstrated with the following
 ```
 After pushing 1 to the stack, the `S` instruction pops the topmost value off the stack and writes it in its stead into the source code. The body of the main function now looks like this `11L` and after getting redirected by the `L` (left) instruction, *two* 1s get pushed to the stack and the program exits the main function on the lefthand side.
 
-### Control flow
+## Control flow
 Control flow always starts in the top left corner of the `main` function, moving to the right.
 
 Control flow can be changed directly via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than 0 rotates the flow clockwise, less than 0 rotates counter-clockwise and a value of 0 leaves flow unaffected.
@@ -69,10 +73,10 @@ The following program uses a counter to go in a loop 10 times, using the value o
 
 more things here???
 
-### The stack
+## The stack
 TLM2 is a stack based language and as such there are several operations that modify the stack in one way or another. The stack can be accessed from any function at any time. The stack contains integers only, however these integers might be interpreted as symbols by writing them to the output or by putting them into source-code via the meta-programming related instructions.
 
-### Functions
+## Functions
 Control flow can "leave" the main function by going to a different function. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right.
 
 The following program enters the function `f` twice - each time pushing the number 1 to the stack.
@@ -88,17 +92,27 @@ Control flow is not preserved when exiting a function, so even if the body of th
 
 more things here???
 
-### Registers
+## Function modifiers
+Function modifiers directly follow the identifier of the function and are listed in square brackets `[...]` seperated by semi-colons `;`. If a modifier takes arguments, they are listed within parenthesis `()` seperated by commas `,`.
+```
+{f[!;?;$(a,b,c)]
+...
+...
+...
+}
+```
+
+## Registers
 TLM2, as opposed to TLM, has three (two?) registers to write to and read from; the x, y and z registers can be written to via the `X`, `Y` and `Z` instructions and can be read from via the `U`, `V` and `W` instructions respectively. Registers contain, as the stack, integers.
 
-### Meta programming
+## Meta programming
 yay
 
 cool things here
 
-### Ideas ?
+## Ideas ?
 * mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
-* mark function as "persistant" (exiting it does not reset any source-code modification) (what about recursion?)
+* mark function as "persistent" (exiting it does not reset any source-code modification) (what about recursion?)
 * increment and decrement can be implemented as `1A` and `1NA` respectively
 * discard can be implemented with a simple function
 ```
@@ -107,3 +121,16 @@ S
 }
 ```
 * more cool things
+
+## Persistent functions
+Normally, when exiting a function, the function body is reset to its original state and all modifications done due to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent.
+
+
+
+
+
+
+
+
+
+
