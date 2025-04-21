@@ -56,7 +56,7 @@ TLM2 is also able to modify its own source code, demonstrated with the following
 After pushing 1 to the stack, the `S` instruction pops the topmost value off the stack and writes it in its stead into the source code. The body of the main function now looks like this `11L` and after getting redirected by the `L` (left) instruction, *two* 1s get pushed to the stack and the program exits the main function on the lefthand side.
 
 ## Control flow
-Control flow always starts in the top left corner of the `main` function, moving to the right.
+Control flow always starts in the top left corner of the `main` function, moving to the right. If control flow makes the instruction pointer leave the bounds of a function, this function is exited. If the `main` function is exited, the program halts.
 
 Control flow can be changed directly via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than 0 rotates the flow clockwise, less than 0 rotates counter-clockwise and a value of 0 leaves flow unaffected.
 
@@ -83,7 +83,7 @@ more things here???
 TLM2 is a stack based language and as such there are several operations that modify the stack in one way or another. The stack can be accessed from any function at any time. The stack contains integers only, however these integers might be interpreted as symbols by writing them to the output or by putting them into source-code via the meta-programming related instructions.
 
 ## Functions
-Control flow can "leave" the main function by going to a different function. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right.
+Control flow can "leave" the main function by going to a different function. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right. Leaving a function causes the instruction pointer to return to the place where it entered it. Leaving `main` halts the program.
 
 The following program enters the function `f` twice - each time pushing the number 1 to the stack.
 ```
@@ -110,15 +110,25 @@ Function modifiers directly follow the identifier of the function and are listed
 Normally, when exiting a function, the function body is reset to its original state and all modifications done with to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent using the `!` function modifier.
 
 ## Clean functions
-Functions that don't contain any meta-programming instructions are "clean". Clean functions are persistent. Functions can optionally be marked as clean with the `%` function modifier as a hint for yourself and the interpreter or compiler (as if, lol).
+Functions that don't contain any meta-programming instructions are "clean". Clean functions are persistent. Functions can optionally be marked as clean with the `%` function modifier as a hint for yourself and the interpreter or compiler (as if there will ever be a compiler, lol).
 
 ## Registers
 TLM2, as opposed to TLM, has three (two?) registers to write to and read from; the x, y and z registers can be written to via the `X`, `Y` and `Z` instructions and can be read from via the `U`, `V` and `W` instructions respectively. Registers contain, as the stack, integers.
 
 ## Meta programming
-yay
+There are several ways to do meta-programming in TLM2. The most straightforward is the `S` instruction. As example, take the following program
+```
+{main
+1111SSSS
+}
+```
+Four 1s will be pushed to the stack and then written to source code. Right before exiting `main`, the source code will look like this
+```
+{main
+11111111
+}
+```
 
-cool things here
 
 ## Ideas
 * increment and decrement can be implemented as `1A` and `1NA` respectively
