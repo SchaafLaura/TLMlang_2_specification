@@ -5,6 +5,12 @@ Contents
 * [General](#general)
 * [Control flow](#control-flow)
 * [The stack](#the-stack)
+* [Functions](#functions)
+* [Function modifiers](#function-modifiers)
+* [Registers](#registers)
+* [Meta programming](#meta-programming)
+* [Ideas](#ideas)
+* [Persistent functions](#persistent-functions)
 
 
 ## General
@@ -110,7 +116,7 @@ yay
 
 cool things here
 
-## Ideas ?
+## Ideas
 * mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
 * mark function as "persistent" (exiting it does not reset any source-code modification) (what about recursion?)
 * increment and decrement can be implemented as `1A` and `1NA` respectively
