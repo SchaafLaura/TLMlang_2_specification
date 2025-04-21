@@ -2,7 +2,7 @@
 
 
 ## Specification
-This is the specification for the programming language TLM2 (or TLMlang 2)
+This is the (informal) specification for the programming language TLM2 (or TLMlang 2)
 ### General
 TLM2 is based on TLMlang (Trans lives matter language) from May'24.
 The '24 TLMlang is a stack-based, two-dimensional programming language focused on meta programming. Inspirations include Brainfuck, Befunge and cellular automata.
@@ -70,12 +70,10 @@ The following program uses a counter to go in a loop 10 times, using the value o
 more things here???
 
 ### The stack
-yay
-
-wow
+TLM2 is a stack based language and as such there are several operations that modify the stack in one way or another. The stack can be accessed from any function at any time. The stack contains integers only, however these integers might be interpreted as symbols by writing them to the output or by putting them into source-code via the meta-programming related instructions.
 
 ### Functions
-Control flow can "leave" the main function by going to a different functions. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right.
+Control flow can "leave" the main function by going to a different function. Function names are single lowercase letters (`a` through `z`). The instruction to enter a function is its name. When entering a function, the instruction pointer starts (as it does with the `main` function) at the top left corner and moves to the right.
 
 The following program enters the function `f` twice - each time pushing the number 1 to the stack.
 ```
@@ -88,15 +86,17 @@ ff
 ```
 Control flow is not preserved when exiting a function, so even if the body of the function of `f` was `1D`, the program would functionally be identical.
 
-
-
+more things here???
 
 ### Registers
+TLM2, as opposed to TLM, has three (two?) registers to write to and read from; the x, y and z registers can be written to via the `X`, `Y` and `Z` instructions and can be read from via the `U`, `V` and `W` instructions respectively. Registers contain, as the stack, integers.
+
+### Meta programming
 yay
 
-wow
+cool things here
 
-### Nice to have
+### Nice-to-have's ?
 * mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
 * mark function as "persistant" (exiting it does not reset any source-code modification) (what about recursion?)
 * ?
