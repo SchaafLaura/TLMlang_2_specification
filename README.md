@@ -40,15 +40,15 @@ The only new instruction is `D` (down), which changes the instruction-flow from 
 TLM2 is also able to modify its own source code, demonstrated with the following program
 ```
 {main
-1WL
+1SL
 }
 ```
-After pushing 1 to the stack, the `W` instruction pops the topmost value off the stack and writes it in its stead into the source code. The body of the main function now looks like this `11L` and after getting redirected by the `L` (left) instruction, *two* 1s get pushed to the stack and the program exits the main function on the lefthand side.
+After pushing 1 to the stack, the `S` instruction pops the topmost value off the stack and writes it in its stead into the source code. The body of the main function now looks like this `11L` and after getting redirected by the `L` (left) instruction, *two* 1s get pushed to the stack and the program exits the main function on the lefthand side.
 
 ### Control flow
 Control flow always starts in the top left corner of the `main` function, moving to the right.
 
-Control flow can be changed directly via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than `0` rotates the flow clockwise, less than `0` rotates counter-clockwise and a value of `0` leaves flow unaffected.
+Control flow can be changed directly via the `U`, `D`, `L`, `R` (up, down, left, right) instructions and via the `O` (conditional redirect) instruction. The conditional redirect rotates the instruction-flow vector depending on the value on top of the stack. A value greater than 0 rotates the flow clockwise, less than 0 rotates counter-clockwise and a value of 0 leaves flow unaffected.
 
 The following program goes in a loop forever
 ```
@@ -96,7 +96,14 @@ yay
 
 cool things here
 
-### Nice-to-have's ?
+### Ideas ?
 * mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
 * mark function as "persistant" (exiting it does not reset any source-code modification) (what about recursion?)
-* ?
+* increment and decrement can be implemented as `1A` and `1NA` respectively
+* discard can be implemented with a simple function
+```
+{d
+S
+}
+```
+* more cool things
