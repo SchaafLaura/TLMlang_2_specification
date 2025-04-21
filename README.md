@@ -1,17 +1,17 @@
 # 🚧 This page is still very much under construction 🚧
 This is the (informal) specification for the programming language TLM2 (or TLMlang 2)
 
-Contents
+## Contents
 * [General](#general)
 * [Control flow](#control-flow)
 * [The stack](#the-stack)
 * [Functions](#functions)
-* [Function modifiers](#function-modifiers)
+  * [Function modifiers](#function-modifiers)
+    * [Persistent functions](#persistent-functions)
+    * [Clean functions](#clean-functions)
 * [Registers](#registers)
 * [Meta programming](#meta-programming)
 * [Ideas](#ideas)
-* [Persistent functions](#persistent-functions)
-
 
 ## General
 TLM2 is based on TLMlang (Trans lives matter language) from May'24.
@@ -101,12 +101,16 @@ more things here???
 ## Function modifiers
 Function modifiers directly follow the identifier of the function and are listed in square brackets `[...]` seperated by semi-colons `;`. If a modifier takes arguments, they are listed within parenthesis `()` seperated by commas `,`.
 ```
-{f[!;?;$(a,b,c)]
-...
-...
-...
+{f[!;%;$(a,b,c)]
+.
 }
 ```
+
+## Persistent functions
+Normally, when exiting a function, the function body is reset to its original state and all modifications done with to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent using the `!` function modifier.
+
+## Clean functions
+Functions that don't contain any meta-programming instructions are "clean". Clean functions are persistent. Functions can optionally be marked as clean with the `%` function modifier as a hint for yourself and the interpreter or compiler (as if, lol).
 
 ## Registers
 TLM2, as opposed to TLM, has three (two?) registers to write to and read from; the x, y and z registers can be written to via the `X`, `Y` and `Z` instructions and can be read from via the `U`, `V` and `W` instructions respectively. Registers contain, as the stack, integers.
@@ -117,8 +121,6 @@ yay
 cool things here
 
 ## Ideas
-* mark function as "clean" (does not modify its own source code in any way), could be very efficient to save its state (as it's just the instruction pointer position and flow) when going into other functions or doing recursion
-* mark function as "persistent" (exiting it does not reset any source-code modification) (what about recursion?)
 * increment and decrement can be implemented as `1A` and `1NA` respectively
 * discard can be implemented with a simple function
 ```
@@ -126,10 +128,10 @@ cool things here
 S
 }
 ```
+* overwrite old code somehow, because using `S` can only write in its stead, not overwrite other things (positional write? write block?)
 * more cool things
 
-## Persistent functions
-Normally, when exiting a function, the function body is reset to its original state and all modifications done due to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent.
+
 
 
 
