@@ -111,7 +111,7 @@ Function modifiers directly follow the identifier of the function and are listed
 ```
 
 ## Persistent functions
-Normally, when exiting a function, the function body is reset to its original state and all modifications done with to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent using the `!` function modifier.
+Normally, when exiting a function by going out of bounds, the function body is reset to its original state and all modifications done with to meta-programming are reverted. Persistent functions do not do this. A function can be marked as persistent using the `!` function modifier.
 
 Take the following program as an example
 ```
@@ -125,10 +125,10 @@ ff
 When the program enters the function `f` for the first time, 1 is pushed to the stack and put into the place of the `S`. The function is left with an empty stack. The next time the program enters `f`, *two* 1s are pushed to the stack before the function is exited again.
 
 ## Clean functions
-Functions that don't contain any meta-programming instructions are "clean". Clean functions are persistent. Functions can optionally be marked as clean with the `%` function modifier as a hint for yourself and the interpreter or compiler (as if there will ever be a compiler, lol).
+Functions that don't contain any meta-programming instructions are "clean". Clean functions are persistent. Functions can optionally be marked as clean with the `%` function modifier as a hint for yourself and the interpreter or compiler (as if there will ever be a compiler, lol). Functions that do contain meta-programming instructions are "dirty".
 
 ## Registers
-TLM2, as opposed to TLM, has two registers to write to and read from; the X and Y registers can be written to via the `X` and `Y` instructions and can be read from via the `U` and `V` instructions respectively. Registers contain, as the stack does, integers.
+TLM2, as opposed to TLM, has registers to write to and read from; the X and Y registers can be written to via the `X` and `Y` instructions and can be read from via the `U` and `V` instructions respectively. Registers contain, as the stack does, integers.
 
 ## Meta programming
 There are several ways to do meta-programming in TLM2. The most straightforward is the `S` instruction. As example, take the following program
@@ -146,7 +146,6 @@ Four 1s will be pushed to the stack and then written to source code. Right befor
 
 
 ## Ideas
-* increment and decrement can be implemented as `1A` and `1NA` respectively
 * discard can be implemented with a simple function
 ```
 {d
@@ -155,15 +154,3 @@ S
 ```
 * overwrite old code somehow, because using `S` can only write in its stead, not overwrite other things (positional write? write block?)
 * more cool things
-
-
-
-
-
-
-
-
-
-
-
-
