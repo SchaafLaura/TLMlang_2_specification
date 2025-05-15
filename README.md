@@ -153,10 +153,19 @@ S
 }
 ```
 * overwrite old code somehow, because using `S` can only write in its stead, not overwrite other things (positional write? write block?)
-* "cursor modes": read, write, execute?
 * strings/lambdas on the stack
 * pointers
-* self-modification
+* self-modification: bind symbols to output of a tlm2 program?
+* output is 2d as well
 * instead of registers, have "bags", retrieving an item from a bag returns a random item
 * each point in TLM2 tracks how it was changed over time-allowing to time travel back and forth
-* more cool things
+* first function is main
+
+If the output of a TLM2 program is a 2D area of characters, then the output can be another valid TLM2 program
+
+
+
+
+
+
+
